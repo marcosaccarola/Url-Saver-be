@@ -7,7 +7,7 @@ const groupSchema=new Schema(
         groupName:{type:String,required:true},
         groupNumber:{type:Number,required:true},
         groupColor:{type:Number,required:true},
-        urls:[{type:Schema.Types.Object ,ref:'url'}]
+        urls:[{type:Object}]
     },{timestamps:true}
 )
 
