@@ -4,7 +4,7 @@ import UserModel from './userSchema.js'
 const userRouter=express.Router()
 
 userRouter
-.post('/',async(req,res,next)=>{
+.post('/register',async(req,res,next)=>{
     try {
         const user=new UserModel(req.body)
         const{_id}=user.save()
@@ -56,7 +56,7 @@ userRouter
         }
         const updatedUser=await UserModel.findByIdAndUpdate(
             req.params.userId,
-            {$push:{groups:{groupName:req.params.groupName}}},
+            {$push:{groups:{groupName:req.params.groupName,newUrl}}},
             {new:true}
         )
         if(updatedUser){
