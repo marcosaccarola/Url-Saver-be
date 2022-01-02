@@ -26,7 +26,7 @@ userRouter
         next(error)
     }
 })
-.put('/group/:userId',async(req,res,next)=>{
+.put('/:userId/group',async(req,res,next)=>{
     try {
         const newGroup={
             groupName:req.body.name,
@@ -48,18 +48,20 @@ userRouter
         next(error)
     }
 })
-.put('/url/:userId/:groupName',async(req,res,next)=>{
+.put('/:userId/:groupName/url',async(req,res,next)=>{
     try {
         const newUrl={
             urlName:req.body.name,
             urlString:req.body.string
         }
-        const updatedUser=await UserModel.findByIdAndUpdate(
-            req.params.userId,
-            {$push:{groups:{groupName:req.params.groupName,newUrl}}},
-            {new:true}
-        )
-        if(updatedUser){
+        
+        const user=await UserModel.findById(
+            req.params.userId
+            )
+        const targetGroup=user.groups.find(g=>g.groupName===req.params.groupName).urls.push(new)
+        const updatedUser=targetGroup.urls.push(newUrl)
+            
+        if(user){
             res.status(201).send(updatedUser)
         }else{
             res.status(404).send('USER NOT FOUND')
