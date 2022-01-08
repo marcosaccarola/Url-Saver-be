@@ -3,6 +3,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import listEndpoints from 'express-list-endpoints'
 import userRouter from './users/index.js'
+import groupRouter from './groupsOfUrls/index.js'
 
 const server=express()
 const port=process.env.PORT||3001
@@ -14,6 +15,7 @@ const corsOptions={
 server.use(cors())
 server.use(express.json())
 server.use('/user',userRouter)
+server.use('/group',groupRouter)
 
 //*______________________________________________ ROUTES
 
