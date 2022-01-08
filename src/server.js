@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import listEndpoints from 'express-list-endpoints'
 import userRouter from './users/index.js'
 import groupRouter from './groups/index.js'
+import urlRouter from './urls/index.js'
 
 const server=express()
 const port=process.env.PORT||3001
@@ -16,6 +17,7 @@ server.use(cors())
 server.use(express.json())
 server.use('/user',userRouter)
 server.use('/group',groupRouter)
+server.use('/url',urlRouter)
 
 //*______________________________________________ ROUTES
 
