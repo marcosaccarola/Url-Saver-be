@@ -23,9 +23,9 @@ userSchema.methods.toJSON=function(){
     const userDocument=this
     const userObj=userDocument.toObject()
     delete userObj.pw
-    delete userObj.__v
     delete userObj.createdAt
     delete userObj.updatedAt
+    delete userObj.__v
     return userObj
 }
 userSchema.statics.checkCredentials=async function(email,plainPW){

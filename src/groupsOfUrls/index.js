@@ -1,14 +1,20 @@
 import express from 'express'
 import GroupModel from './schema.js'
+import UserModel from '../users/schema.js'
 
 const groupRouter=express.Router()
 
 groupRouter
-.post('/',async(req,res,next)=>{
+.post('/:userId',async(req,res,next)=>{
     try {
         const newGroup=new GroupModel(req.body)
-        const{_id}=await newGroup.save()
-        res.status(201).send(_id)
+        const savedNewGroup=await newGroup.save()
+        const user=await UserModel.findByIdAndUpdate(
+            req.params.userId,
+            {$push:{groups:savedNewGroup}},
+            {new:true}
+            )
+        res.status(201).send(user)
     } catch (error) {
         next(error)
     }

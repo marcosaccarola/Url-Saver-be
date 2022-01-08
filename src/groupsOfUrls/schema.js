@@ -10,5 +10,13 @@ const groupSchema=new Schema(
         urls:[{type:Object}]
     },{timestamps:true}
 )
+groupSchema.methods.toJSON=function(){
+    const groupDocument=this
+    const groupObj=groupDocument.toObject()
+    delete groupObj.createdAt
+    delete groupObj.updatedAt
+    delete groupObj.__v
+    return groupObj
+}
 
 export default model('group',groupSchema)
