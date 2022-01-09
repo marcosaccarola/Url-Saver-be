@@ -7,7 +7,7 @@ const groupSchema=new Schema(
         name:{type:String,required:true},
         index:{type:Number,required:true},
         color:{type:Number,required:true},
-        urls:[{type:Object}]
+        urls:[{type:Schema.Types.ObjectId,ref:'url'}]
     },{timestamps:true}
 )
 groupSchema.methods.toJSON=function(){

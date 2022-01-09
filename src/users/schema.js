@@ -8,7 +8,7 @@ const userSchema=new Schema(
         email:{type:String,required:true},
         pw:{type:String,required:true},
         avatar:{type:String},
-        groups:[{type:Object}]
+        groups:[{type:Schema.Types.ObjectId,ref:'group'}]
     },{timestamps:true}
 )
 userSchema.pre('save',async function(next){
