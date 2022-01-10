@@ -29,7 +29,7 @@ userSchema.methods.toJSON=function(){
     return userObj
 }
 userSchema.statics.checkCredentials=async function(email,plainPW){
-    const user=await this.findOne({email})
+    const user=await this.findOne({email}).populate({path:'groups',select:'name index color urls'})
     if(user){
         const isMatch=await bcrypt.compare(plainPW,user.pw)
         if(isMatch) return user
