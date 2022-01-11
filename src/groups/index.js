@@ -27,11 +27,14 @@ groupRouter
         next(error)
     }
 })
-.put('/:groupId',async(req,res,next)=>{
+.put('/:groupId/:userId',async(req,res,next)=>{
     try {
         const modifiedGroup=await GroupModel.findByIdAndUpdate(req.params.groupId,req.body,{new:true})
         if(modifiedGroup){
-            res.status(200).send(modifiedGroup)
+            const user=await UserModel.findById(
+                req.params.userId,
+                ).populate({path:'groups',select:'name urls'})
+            res.status(200).send(user)
         }else{
             res.status(404).send(`GROUP ID ${req.params.groupId} NOT FOUND`)
         }
