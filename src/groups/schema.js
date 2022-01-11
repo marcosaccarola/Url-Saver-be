@@ -5,8 +5,8 @@ const{Schema,model}=mongoose
 const groupSchema=new Schema(
     {
         name:{type:String,required:true},
-        index:{type:Number,required:true},
-        color:{type:Number,required:true},
+        // index:{type:Number,required:true},
+        // color:{type:Number,required:true},
         urls:[{type:Object,ref:'url'}]
     },{timestamps:true}
 )

@@ -13,7 +13,7 @@ groupRouter
             req.params.userId,
             {$push:{groups:savedNewGroup}},
             {new:true}
-            )
+            ).populate({path:'groups',select:'name urls'})
         res.status(201).send(user)
     } catch (error) {
         next(error)
