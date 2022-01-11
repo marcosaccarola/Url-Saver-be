@@ -39,11 +39,14 @@ groupRouter
         next(error)
     }
 })
-.delete('/:groupId',async(req,res,next)=>{
+.delete('/:groupId/:userId',async(req,res,next)=>{
     try {
         const deletedGroup=await GroupModel.findByIdAndDelete(req.params.groupId)
         if(deletedGroup){
-            res.status(200).send(`GROUP ID ${req.params.groupId} IS GONE`)
+            const user=await UserModel.findById(
+                req.params.userId,
+                ).populate({path:'groups',select:'name urls'})
+            res.status(200).send(user)
         }else{
             res.status(404).send(`GROUP ID ${req.params.groupId} NOT FOUND`)
         }
