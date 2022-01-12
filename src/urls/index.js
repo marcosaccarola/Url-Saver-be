@@ -36,6 +36,20 @@ urlRouter
         next(error)
     }
 })
+.put('/:groupId/:urlId',async(req,res,next)=>{
+    try {
+        const updatedGroup=await GroupModel.findByIdAndUpdate(
+            req.params.groupId,
+            {$pull:{urls:{id:req.params.urlId}}},
+            {new:true}
+        )
+        if(updatedGroup){
+            res.send(updatedGroup)
+        }
+    } catch (error) {
+        next(error)
+    }
+})
 .delete('/:groupId/:urlId',async(req,res,next)=>{
     try {
         console.log(req.params.groupId,req.params.urlId)
@@ -51,26 +65,26 @@ urlRouter
         next(error)
     }
 })
-.get('/:urlId',async(req,res,next)=>{
-    try {
-        const url=await UrlModel.findById(req.params.urlId)
-        res.status(200).send(url)
-    } catch (error) {
-        next(error)
-    }
-})
-.put('/:urlId',async(req,res,next)=>{
-    try {
-        const modifiedUrl=await UrlModel.findByIdAndUpdate(req.params.urlId,req.body,{new:true})
-        if(modifiedUrl){
-            res.status(200).send(modifiedUrl)
-        }else{
-            res.status(404).send(`URL ID ${req.params.urlId} NOT FOUND`)
-        }
-    } catch (error) {
-        next(error)
-    }
-})
+// .get('/:urlId',async(req,res,next)=>{
+//     try {
+//         const url=await UrlModel.findById(req.params.urlId)
+//         res.status(200).send(url)
+//     } catch (error) {
+//         next(error)
+//     }
+// })
+// .put('/:urlId',async(req,res,next)=>{
+//     try {
+//         const modifiedUrl=await UrlModel.findByIdAndUpdate(req.params.urlId,req.body,{new:true})
+//         if(modifiedUrl){
+//             res.status(200).send(modifiedUrl)
+//         }else{
+//             res.status(404).send(`URL ID ${req.params.urlId} NOT FOUND`)
+//         }
+//     } catch (error) {
+//         next(error)
+//     }
+// })
 // .delete('/:groupId/:urlId',async(req,res,next)=>{
 //     try {
 //         const updatedGroup=await GroupModel.findOneAndUpdate({_id:req.params.groupId},{urls:UrlModel.findByIdAndDelete(req.params.urlId)},{new:true})
