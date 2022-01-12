@@ -58,4 +58,15 @@ groupRouter
     }
 })
 
+// .put('/url/:groupId',async(req,res,next)=>{
+//     try {
+//         console.log('HERE')
+//         // const url={...req.body,urlId:uniqid()}
+//         // res.send(url)
+//         res.send('HELLO FRIEND')
+//     } catch (error) {
+//         next(error)
+//     }
+// })
+
 export default groupRouter

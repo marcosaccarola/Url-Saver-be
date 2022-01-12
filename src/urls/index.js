@@ -1,5 +1,5 @@
 import express from 'express'
-import mongoose from 'mongoose'
+import uniqid from 'uniqid'
 import UrlModel from './schema.js'
 import GroupModel from '../groups/schema.js'
 import UserModel from '../users/schema.js'
@@ -7,16 +7,46 @@ import UserModel from '../users/schema.js'
 const urlRouter=express.Router()
 
 urlRouter
-.post('/:groupId/:userId',async(req,res,next)=>{
+// .post('/:groupId/:userId',async(req,res,next)=>{
+//     try {
+//         const newUrl=new UrlModel(req.body)
+//         const savedUrl=await newUrl.save()
+//         const updatedGroup=await GroupModel.findByIdAndUpdate(
+//             req.params.groupId,
+//             {$push:{urls:savedUrl}},
+//             {new:true}
+//             )
+//         res.status(201).send(updatedGroup)
+//     } catch (error) {
+//         next(error)
+//     }
+// })
+.post('/:groupId',async(req,res,next)=>{
     try {
-        const newUrl=new UrlModel(req.body)
-        const savedUrl=await newUrl.save()
+        const urlObj={id:uniqid(),...req.body}
         const updatedGroup=await GroupModel.findByIdAndUpdate(
             req.params.groupId,
-            {$push:{urls:savedUrl}},
+            {$push:{urls:urlObj}},
             {new:true}
-            )
-        res.status(201).send(updatedGroup)
+        )
+        if(updatedGroup){
+            res.send(updatedGroup)
+        }
+    } catch (error) {
+        next(error)
+    }
+})
+.delete('/:groupId/:urlId',async(req,res,next)=>{
+    try {
+        console.log(req.params.groupId,req.params.urlId)
+        const updatedGroup=await GroupModel.findByIdAndUpdate(
+            req.params.groupId,
+            {$pull:{urls:{id:req.params.urlId}}},
+            {new:true}
+        )
+        if(updatedGroup){
+            res.send(updatedGroup)
+        }
     } catch (error) {
         next(error)
     }
@@ -41,13 +71,13 @@ urlRouter
         next(error)
     }
 })
-.delete('/:groupId/:urlId',async(req,res,next)=>{
-    try {
-        const updatedGroup=await GroupModel.findOneAndUpdate({_id:req.params.groupId},{urls:UrlModel.findByIdAndDelete(req.params.urlId)},{new:true})
-        console.log(updatedGroup)
-    } catch (error) {
-        next(error)
-    }
-})
+// .delete('/:groupId/:urlId',async(req,res,next)=>{
+//     try {
+//         const updatedGroup=await GroupModel.findOneAndUpdate({_id:req.params.groupId},{urls:UrlModel.findByIdAndDelete(req.params.urlId)},{new:true})
+//         console.log(updatedGroup)
+//     } catch (error) {
+//         next(error)
+//     }
+// })
 
 export default urlRouter
