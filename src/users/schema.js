@@ -7,7 +7,7 @@ const userSchema=new Schema(
     {
         email:{type:String,required:true},
         pw:{type:String,required:true},
-        avatar:{type:String},
+        // avatar:{type:String},
         groups:[{type:Schema.Types.ObjectId,ref:'group'}]
     },{timestamps:true}
 )
