@@ -2,7 +2,7 @@ import passport from 'passport'
 import GoogleStrategy from 'passport-google-oauth20'
 import UserModel from '../users/schema.js'
 
-const GoogleStrategy=new GoogleStrategy(
+const googleStrategy=new GoogleStrategy(
     {
         clientID:process.env.GOOGLE_OAUTH_ID,
         clientSecret:process.env.GOOGLE_OAUTH_SECRET,

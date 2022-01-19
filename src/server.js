@@ -5,6 +5,8 @@ import listEndpoints from 'express-list-endpoints'
 import userRouter from './users/index.js'
 import groupRouter from './groups/index.js'
 import urlRouter from './urls/index.js'
+import googleStrategy from './utils/oauth.js'
+import passport from 'passport'
 
 const server=express()
 const port=process.env.PORT||3001
@@ -13,7 +15,9 @@ const port=process.env.PORT||3001
 const corsOptions={
     origin:process.env.FE_DEV_URL
 }
+passport.use('google',googleStrategy)
 server.use(cors())
+server.use(passport.initialize())
 server.use(express.json())
 server.use('/user',userRouter)
 server.use('/group',groupRouter)
